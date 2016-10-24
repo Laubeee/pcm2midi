@@ -202,6 +202,7 @@ public final class PCM2MIDIShell {
 						row += t.getClass().getName() + ":" + t.getMessage() + SEP;
 						report.println(row);
 					}
+					System.out.println(COLUMNS);
 					System.out.println(row);
 					report.close();
 				}

@@ -24,7 +24,7 @@ public abstract class AbstractPCM2MIDI {
 	 * Signal a note on MIDI event. The note will be recorded at the frame time this method is called.</code>.
 	 * @throws InvalidMidiDataException 
 	 */
-	protected void noteOn(int key, int velocity) throws InvalidMidiDataException {
+	public void noteOn(int key, int velocity) throws InvalidMidiDataException {
 		b2ms.noteOn(key, velocity);
 	}
 
@@ -32,7 +32,7 @@ public abstract class AbstractPCM2MIDI {
 	 * Signal a note off MIDI event. The note will be recorded at the frame time this method is called.</code>.
 	 * @throws InvalidMidiDataException 
 	 */
-	protected void noteOff(int key, int velocity) throws InvalidMidiDataException {
+	public void noteOff(int key, int velocity) throws InvalidMidiDataException {
 		b2ms.noteOn(key, 0);
 	}
 	
