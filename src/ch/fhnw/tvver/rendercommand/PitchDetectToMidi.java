@@ -25,7 +25,8 @@ public class PitchDetectToMidi extends AbstractRenderCommand<IAudioRenderTarget>
 		if (pitch.length > 0) {
 			// Very simple rules to avoid huge numbers of false positives.
 			// Proper onset detection needed to make this work better.
-			// Also, the pitch detection doesn't seem to work for the low notes.
+			// Also, the pitch detection doesn't seem to work for the low notes
+			// --> highest peak != the note we look for.
 			if (frequencyToMidi(pitch[0]) != lastNote && amplitude[0] > 10000000) {
 				lastNote = frequencyToMidi(pitch[0]);
 				System.out.println(lastNote + " " + amplitude[0]);
