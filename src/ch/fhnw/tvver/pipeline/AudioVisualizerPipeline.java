@@ -9,7 +9,7 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import ch.fhnw.ether.audio.AudioUtilities.Window;
-import ch.fhnw.ether.audio.FFT;
+import ch.fhnw.ether.audio.fx.FFT;
 import ch.fhnw.ether.audio.IAudioRenderTarget;
 import ch.fhnw.ether.audio.fx.AutoGain;
 import ch.fhnw.ether.audio.fx.BandsButterworth;

@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import ch.fhnw.ether.audio.AudioUtilities;
-import ch.fhnw.ether.audio.FFT;
+import ch.fhnw.ether.audio.fx.FFT;
 import ch.fhnw.ether.audio.IAudioRenderTarget;
 import ch.fhnw.ether.media.AbstractRenderCommand;
 import ch.fhnw.ether.media.RenderCommandException;

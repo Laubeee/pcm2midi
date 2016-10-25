@@ -1,6 +1,6 @@
 package ch.fhnw.tvver.rendercommand;
 
-import ch.fhnw.ether.audio.FFT;
+import ch.fhnw.ether.audio.fx.FFT;
 import ch.fhnw.ether.audio.IAudioRenderTarget;
 import ch.fhnw.ether.media.AbstractRenderCommand;
 import ch.fhnw.ether.media.RenderCommandException;
