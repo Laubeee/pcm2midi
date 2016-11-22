@@ -1,7 +1,5 @@
 package ch.fhnw.tvver.rendercommand;
 
-import javax.sound.midi.InvalidMidiDataException;
-
 import ch.fhnw.ether.audio.IAudioRenderTarget;
 import ch.fhnw.ether.media.AbstractRenderCommand;
 import ch.fhnw.ether.media.RenderCommandException;
@@ -30,12 +28,7 @@ public class PitchDetectToMidi extends AbstractRenderCommand<IAudioRenderTarget>
 			if (frequencyToMidi(pitch[0]) != lastNote && amplitude[0] > 10000000) {
 				lastNote = frequencyToMidi(pitch[0]);
 				System.out.println(lastNote + " " + amplitude[0]);
-				try {
-					pipeline.noteOn(lastNote, 0);
-				} catch (InvalidMidiDataException e) {
-					System.out.println("noteOn failed:");
-					e.printStackTrace();
-				}
+				pipeline.noteOn(lastNote, 0);
 			}
 		}
 	}

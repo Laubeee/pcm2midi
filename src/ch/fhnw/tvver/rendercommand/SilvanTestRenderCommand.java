@@ -5,10 +5,10 @@ import ch.fhnw.ether.audio.IAudioRenderTarget;
 import ch.fhnw.ether.media.AbstractRenderCommand;
 import ch.fhnw.ether.media.RenderCommandException;
 
-public class PCM2MIDIRenderCommand extends AbstractRenderCommand<IAudioRenderTarget> {
+public class SilvanTestRenderCommand extends AbstractRenderCommand<IAudioRenderTarget> {
 	private FFT fft;
 
-	public PCM2MIDIRenderCommand(FFT fft) {
+	public SilvanTestRenderCommand(FFT fft) {
 		super();
 		this.fft = fft;
 	}
