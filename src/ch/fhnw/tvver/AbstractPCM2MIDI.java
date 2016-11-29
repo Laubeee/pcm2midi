@@ -65,7 +65,7 @@ public abstract class AbstractPCM2MIDI {
 		return p2ms;
 	}
 
-	final SortedSet<MidiEvent> getRefMidi() {
+	protected final SortedSet<MidiEvent> getRefMidi() {
 		return p2ms.getRefMidi();
 	}
 
