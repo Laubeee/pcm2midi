@@ -43,10 +43,11 @@ public class BandPassFilterBank extends AbstractRenderCommand<IAudioRenderTarget
 		}
 		float[] samples = target.getFrame().samples;
 		filteredSamples = new float[filterBank.length][samples.length];
+		// Assumes only one channel when reading from the samples.
+		assert target.getNumChannels() == 1;
 		for (int i = 0; i < filterBank.length; ++i) {
-			for (int j = 0; j < samples.length; ++j) {
-				filteredSamples[i][j] = filterBank[i].process(samples[j]);
-			}
+			// Filter samples with bandpass filter and write to filteredSamples 2D-array.
+			filterBank[i].process(samples, filteredSamples[i]);
 		}
 	}
 }

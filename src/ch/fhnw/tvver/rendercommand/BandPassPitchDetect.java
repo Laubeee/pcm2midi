@@ -14,19 +14,18 @@ public class BandPassPitchDetect extends AbstractRenderCommand<IAudioRenderTarge
 	@Override
 	protected void run(IAudioRenderTarget target) throws RenderCommandException {
 		double maxMean = 0;
-		int iMaxMean = -1;
+		int maxMeanBand = -1;
 		for (int i = 0; i < bandPassFilterBank.filteredSamples.length; ++i) {
 			double sum = 0;
 			for (int j = 0; j < bandPassFilterBank.filteredSamples[i].length; ++j) {
-				// -1 to 1 --> 0 to 2
 				sum += Math.abs(bandPassFilterBank.filteredSamples[i][j]);
 			}
 			double mean = sum / bandPassFilterBank.filteredSamples[i].length;
 			if (mean > maxMean) {
 				maxMean = mean;
-				iMaxMean = i;
+				maxMeanBand = i;
 			}
 		}
-		System.out.println("pitch=" + (iMaxMean + bandPassFilterBank.lowestNote) + ", mean=" + maxMean);
+		System.out.println("pitch=" + (maxMeanBand + bandPassFilterBank.lowestNote) + ", mean=" + maxMean);
 	}
 }
