@@ -12,6 +12,7 @@ import ch.fhnw.ether.audio.IAudioRenderTarget;
 import ch.fhnw.ether.media.AbstractRenderCommand;
 import ch.fhnw.ether.media.IScheduler;
 import ch.fhnw.ether.media.RenderCommandException;
+import ch.fhnw.tvver.pipeline.BandPassFilterBankPipeline;
 
 public class PerfectMIDIDetection extends AbstractRenderCommand<IAudioRenderTarget> {
 	private final List<List<MidiEvent>> midiRef = new ArrayList<>();
@@ -53,7 +54,7 @@ public class PerfectMIDIDetection extends AbstractRenderCommand<IAudioRenderTarg
 					if(evts != null) {
 						for(MidiEvent e : evts) {
 							byte[] msg = e.getMessage().getMessage();
-							System.err.println("noteOn("+msg[1]+","+msg[2]+")"); //noteOn(e.getMessage().getMessage()[1], e.getMessage().getMessage()[2]);
+							System.err.println("noteOn("+msg[1]+","+msg[2]+")"+", time:" + Math.round(System.currentTimeMillis() - BandPassFilterBankPipeline.START_TIME));
 						}
 					}
 				}
