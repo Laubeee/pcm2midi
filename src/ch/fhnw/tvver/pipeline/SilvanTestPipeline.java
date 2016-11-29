@@ -27,6 +27,7 @@ public class SilvanTestPipeline extends AbstractPCM2MIDI {
 
 	@Override
 	protected void initializePipeline(RenderProgram<IAudioRenderTarget> program) {
+		//args = new String[] {"resources/scale.mid", "pipeline.AudioVisualizerPipeline" };
 		FFT fft = new FFT(20, Window.HANN);
 		program.addLast(new DCRemove());
 		program.addLast(new AutoGain());

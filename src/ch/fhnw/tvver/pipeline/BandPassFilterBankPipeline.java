@@ -15,6 +15,7 @@ import ch.fhnw.ether.media.RenderCommandException;
 import ch.fhnw.ether.media.RenderProgram;
 import ch.fhnw.tvver.AbstractPCM2MIDI;
 import ch.fhnw.tvver.rendercommand.BandPassFilterBank;
+import ch.fhnw.tvver.rendercommand.BandPassOnsetDetect;
 import ch.fhnw.tvver.rendercommand.BandPassPitchDetect;
 
 public class BandPassFilterBankPipeline extends AbstractPCM2MIDI {
@@ -28,6 +29,6 @@ public class BandPassFilterBankPipeline extends AbstractPCM2MIDI {
 		program.addLast(new AutoGain());
 		BandPassFilterBank bandPassFilterBank = new BandPassFilterBank(24, 101);
 		program.addLast(bandPassFilterBank);
-		program.addLast(new BandPassPitchDetect(bandPassFilterBank));
+		program.addLast(new BandPassOnsetDetect(bandPassFilterBank, this, 11));
 	}
 }
