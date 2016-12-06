@@ -7,10 +7,10 @@ import ch.fhnw.tvver.AbstractPCM2MIDI;
 import ch.fhnw.tvver.pipeline.BandPassFilterBankPipeline;
 
 public class BandPassOnsetDetect extends AbstractRenderCommand<IAudioRenderTarget> {
-	private static final double THRESHOLD_DELTA = 0.03;
-	//private static final double THRESHOLD_ENERGY = 0.25;
-	private static final int N_FRAMES = 12; // number of total frames taken into account since attack of piano is almost instantly, there should be max 4 frames relevant?
-	private static final int N_CALC_FRAMES = 4; // number of frames on each end that are used for calculation
+	private static final double THRESHOLD_DELTA = 0.015;
+	private static final double THRESHOLD_ENERGY = 0.02;
+	private static final int N_FRAMES = 24; // number of total frames taken into account since attack of piano is almost instantly, there should be max 4 frames relevant?
+	private static final int N_CALC_FRAMES = 8; // number of frames on each end that are used for calculation
 	
 	private final BandPassFilterBank bandPassFilterBank;
 	private final AbstractPCM2MIDI pipeline;
@@ -44,15 +44,15 @@ public class BandPassOnsetDetect extends AbstractRenderCommand<IAudioRenderTarge
 				ePrev += meanEnergyHistory[i][(idx + ++x) % N_FRAMES];
 			}
 			
-			double delta = (eNow - ePrev); // don't use abs -> detect only rise in energy, not a fall
-			if (delta >= THRESHOLD_DELTA) {
+			double delta = (eNow - ePrev)/N_CALC_FRAMES; // don't use abs -> detect only rise in energy, not a fall
+			if (delta >= THRESHOLD_DELTA && mean >= THRESHOLD_ENERGY) {
 				pipeline.noteOn(bandPassFilterBank.lowestNote + i, 0);
 				for(int x = 0; x < N_FRAMES; ++x) meanEnergyHistory[i][x] = 1; // Math.max(meanEnergyHistory[i][x], meanEnergyHistory[i][idx]); // set all values to the current value, so no futher noteons are detected in the following nFrames-1 frames
-				System.out.println("pitch=" + (bandPassFilterBank.lowestNote + i) + ", mean=" + mean + ", delta=" + delta +", time:" + Math.round(System.currentTimeMillis() - BandPassFilterBankPipeline.START_TIME));
+				System.out.println("pitch=" + (bandPassFilterBank.lowestNote + i) + ", mean=" + mean + ", eNow:" + eNow + ", delta=" + delta +", time:" + Math.round(System.currentTimeMillis() - BandPassFilterBankPipeline.START_TIME));
 			} else {
 				//System.out.println("p=" + (bandPassFilterBank.lowestNote + i) + ", mean=" + mean + ", delta=" + delta +", time:" + Math.round(System.currentTimeMillis() - BandPassFilterBankPipeline.START_TIME));
 			}
-			idx = (idx+1)%N_FRAMES;
 		}
+		idx = (idx+1)%N_FRAMES;
 	}
 }

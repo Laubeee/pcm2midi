@@ -34,8 +34,8 @@ public class BandPassFilterBank extends AbstractRenderCommand<IAudioRenderTarget
 //			float low = (f + fLast)/2;
 //			float high = (fNext + f)/2;
 			// 0 _2_ 4 --> 1.333-2.666
-			float low = f - (f - fLast)/3;
-			float high = f + (fNext - f)/3;
+			float low = f - (f - fLast)/6;
+			float high = f + (fNext - f)/6;
 			filterBank[d - lowestNote] = ButterworthFilter.getBandpassFilter(sampleRate, low, high);
 			System.out.println(d + ": " + low + "-" + high);
 		}
