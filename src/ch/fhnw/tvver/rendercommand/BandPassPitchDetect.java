@@ -28,8 +28,8 @@ public class BandPassPitchDetect extends AbstractRenderCommand<IAudioRenderTarge
 			}
 		}
 		int pitch = maxMeanBand + bandPassFilterBank.lowestNote;
-		System.out.println(target.getTotalElapsedFrames());
-		System.out.println("PD pitch=" + pitch + ", meanLast=" + maxMeanLast + ", mean=" + maxMean + ", meanNext=" + maxMeanNext);
+		//System.out.println(target.getTotalElapsedFrames());
+		//System.out.println("PD pitch=" + pitch + ", meanLast=" + maxMeanLast + ", mean=" + maxMean + ", meanNext=" + maxMeanNext);
 		lastNote = pitch;
 	}
 	

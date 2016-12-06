@@ -9,14 +9,13 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import ch.fhnw.ether.audio.IAudioRenderTarget;
-import ch.fhnw.ether.audio.fx.DCRemove;
 import ch.fhnw.ether.media.RenderCommandException;
 import ch.fhnw.ether.media.RenderProgram;
 import ch.fhnw.tvver.AbstractPCM2MIDI;
-import ch.fhnw.tvver.rendercommand.AutoGainCopy;
 import ch.fhnw.tvver.rendercommand.BandPassFilterBank;
-import ch.fhnw.tvver.rendercommand.BandPassOnsetDetect;
+import ch.fhnw.tvver.rendercommand.BandPassOnsetDetect2;
 import ch.fhnw.tvver.rendercommand.BandPassPitchDetect;
+import ch.fhnw.tvver.rendercommand.PerfectMIDIDetection;
 
 public class BandPassFilterBankPipeline extends AbstractPCM2MIDI {
 	public BandPassFilterBankPipeline(File track) throws UnsupportedAudioFileException, IOException, MidiUnavailableException, InvalidMidiDataException, RenderCommandException {
@@ -25,10 +24,15 @@ public class BandPassFilterBankPipeline extends AbstractPCM2MIDI {
 	
 	@Override
 	protected void initializePipeline(RenderProgram<IAudioRenderTarget> program) {
-		program.addLast(new DCRemove());
-		program.addLast(new AutoGainCopy());
+		PerfectMIDIDetection ppd = new PerfectMIDIDetection(getRefMidi());
+		program.addLast(ppd);
+		//program.addLast(new DCRemove());
+		//program.addLast(new AutoGainCopy());
 		BandPassFilterBank bandPassFilterBank = new BandPassFilterBank(24, 101);
 		program.addLast(bandPassFilterBank);
-		program.addLast(new BandPassOnsetDetect(bandPassFilterBank, this, 11));
+		program.addLast(new BandPassOnsetDetect2(bandPassFilterBank, this));
+		BandPassPitchDetect bppd = new BandPassPitchDetect(bandPassFilterBank);
+		program.addLast(bppd);
+		//program.addLast(new LastNoteComparator(ppd, bppd));
 	}
 }

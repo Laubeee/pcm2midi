@@ -63,7 +63,7 @@ public class BandPassOnsetDetect2 extends AbstractRenderCommand<IAudioRenderTarg
 			if (doNoteOn) {
 				int pitch = bandPassFilterBank.lowestNote + i;
 				System.out.println("NOTE_ON: " + pitch);
-				pipeline.noteOn(pitch, 0);
+				pipeline.noteOn(pitch, 64);
 			}
 			
 			for (int j = 0; j < meanEnergyHistory[i].length - 1; ++j) {
