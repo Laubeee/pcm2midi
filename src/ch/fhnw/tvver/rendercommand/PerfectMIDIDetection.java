@@ -18,6 +18,7 @@ public class PerfectMIDIDetection extends AbstractRenderCommand<IAudioRenderTarg
 	private       int                   msTime;
 	private SortedSet<MidiEvent> midiRefRaw;
 	public int lastNote;
+	public long lastNoteFrameNr;
 
 	public PerfectMIDIDetection(SortedSet<MidiEvent> midiRef) {
 		midiRefRaw = midiRef;
@@ -55,6 +56,7 @@ public class PerfectMIDIDetection extends AbstractRenderCommand<IAudioRenderTarg
 						for(MidiEvent e : evts) {
 							byte[] msg = e.getMessage().getMessage();
 							lastNote = msg[1];
+							lastNoteFrameNr = target.getTotalElapsedFrames();
 							System.err.println("noteOn("+msg[1]+","+msg[2]+")"); //noteOn(e.getMessage().getMessage()[1], e.getMessage().getMessage()[2]);
 						}
 					}

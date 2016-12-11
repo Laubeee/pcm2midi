@@ -13,9 +13,9 @@ import ch.fhnw.ether.media.RenderCommandException;
 import ch.fhnw.ether.media.RenderProgram;
 import ch.fhnw.tvver.AbstractPCM2MIDI;
 import ch.fhnw.tvver.rendercommand.BandPassFilterBank;
-import ch.fhnw.tvver.rendercommand.BandPassOnsetDetect2;
-import ch.fhnw.tvver.rendercommand.BandPassPitchDetect;
+import ch.fhnw.tvver.rendercommand.BandPassOnsetDetectADSR;
 import ch.fhnw.tvver.rendercommand.PerfectMIDIDetection;
+import ch.fhnw.tvver.rendercommand.PrintMeanOfPerfectDetection;
 
 public class BandPassFilterBankPipeline extends AbstractPCM2MIDI {
 	public BandPassFilterBankPipeline(File track) throws UnsupportedAudioFileException, IOException, MidiUnavailableException, InvalidMidiDataException, RenderCommandException {
@@ -30,9 +30,11 @@ public class BandPassFilterBankPipeline extends AbstractPCM2MIDI {
 		//program.addLast(new AutoGainCopy());
 		BandPassFilterBank bandPassFilterBank = new BandPassFilterBank(24, 101);
 		program.addLast(bandPassFilterBank);
-		program.addLast(new BandPassOnsetDetect2(bandPassFilterBank, this));
-		BandPassPitchDetect bppd = new BandPassPitchDetect(bandPassFilterBank);
-		program.addLast(bppd);
+		program.addLast(new BandPassOnsetDetectADSR(bandPassFilterBank, this));
+		//BandPassPitchDetect bppd = new BandPassPitchDetect(bandPassFilterBank);
+		//program.addLast(bppd);
 		//program.addLast(new LastNoteComparator(ppd, bppd));
+		PrintMeanOfPerfectDetection print = new PrintMeanOfPerfectDetection(ppd, bandPassFilterBank);
+		program.addLast(print);
 	}
 }

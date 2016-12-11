@@ -1,2 +1,4 @@
 /bin/
 *_report.txt
+*.wav
+/ml_data/
