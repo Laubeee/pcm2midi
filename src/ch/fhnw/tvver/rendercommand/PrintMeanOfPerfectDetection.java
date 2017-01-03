@@ -7,6 +7,7 @@ import ch.fhnw.ether.media.RenderCommandException;
 public class PrintMeanOfPerfectDetection extends AbstractRenderCommand<IAudioRenderTarget> {
 	private final PerfectMIDIDetection truth;
 	private final BandPassFilterBank bandPassFilterBank;
+	private double lastMean = -1.0;
 	
 	public PrintMeanOfPerfectDetection(PerfectMIDIDetection truth, BandPassFilterBank bandPassFilterBank) {
 		this.truth = truth;
@@ -16,7 +17,14 @@ public class PrintMeanOfPerfectDetection extends AbstractRenderCommand<IAudioRen
 	@Override
 	protected void run(IAudioRenderTarget target) throws RenderCommandException {
 		if (truth.lastNote >= bandPassFilterBank.lowestNote && truth.lastNote <= bandPassFilterBank.highestNote) {
-			System.out.println("Mean of " + truth.lastNote + " = " + getMean(truth.lastNote - bandPassFilterBank.lowestNote));
+			double mean = getMean(truth.lastNote - bandPassFilterBank.lowestNote);
+			System.out.print("Mean of " + truth.lastNote + " = " + mean);
+			if (lastMean >= 0.0) {
+				System.out.print(", change is " + ((mean / lastMean - 1)*100) + "%");
+			}
+			System.out.println();
+			
+			lastMean = mean;
 		}
 	}
 	

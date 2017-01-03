@@ -13,12 +13,16 @@ import ch.fhnw.ether.media.RenderCommandException;
 import ch.fhnw.ether.media.RenderProgram;
 import ch.fhnw.tvver.AbstractPCM2MIDI;
 import ch.fhnw.tvver.rendercommand.BandPassFilterBank;
+import ch.fhnw.tvver.rendercommand.BandPassOnsetDetectMarkovTrain;
 import ch.fhnw.tvver.rendercommand.PerfectMIDIDetection;
-import ch.fhnw.tvver.rendercommand.PrintMeanOfPerfectDetection;
 
-public class BandPassFilterBankPipeline extends AbstractPCM2MIDI {
-	public BandPassFilterBankPipeline(File track) throws UnsupportedAudioFileException, IOException, MidiUnavailableException, InvalidMidiDataException, RenderCommandException {
+public class MarkovModelTrainPipeline extends AbstractPCM2MIDI {
+	private final String trackName;
+	private BandPassOnsetDetectMarkovTrain markov;
+	
+	public MarkovModelTrainPipeline(File track) throws UnsupportedAudioFileException, IOException, MidiUnavailableException, InvalidMidiDataException, RenderCommandException {
 		super(track, EnumSet.of(Flags.MAX_SPEED));
+		trackName = track.getName();
 	}
 	
 	@Override
@@ -32,14 +36,21 @@ public class BandPassFilterBankPipeline extends AbstractPCM2MIDI {
 		
 		//program.addLast(new BandPassOnsetDetectADSR(bandPassFilterBank, this));
 		//program.addLast(new BandPassOnsetDetectBigChange(bandPassFilterBank, this));
-		//program.addLast(new BandPassOnsetDetectMarkovTrain(ppd, bandPassFilterBank));
+		
+		markov = new BandPassOnsetDetectMarkovTrain(ppd, bandPassFilterBank);
+		program.addLast(markov);
 		
 		//BandPassPitchDetect bppd = new BandPassPitchDetect(bandPassFilterBank);
 		//program.addLast(bppd);
 		
 		//program.addLast(new LastNoteComparator(ppd, bppd));
 		
-		PrintMeanOfPerfectDetection print = new PrintMeanOfPerfectDetection(ppd, bandPassFilterBank);
-		program.addLast(print);
+		//PrintMeanOfPerfectDetection print = new PrintMeanOfPerfectDetection(ppd, bandPassFilterBank);
+		//program.addLast(print);
+	}
+	
+	@Override
+	protected void shutdown() {
+		markov.writeMarkovModelsToDisk(trackName);
 	}
 }

@@ -2,3 +2,4 @@
 *_report.txt
 *.wav
 /ml_data/
+models/
