@@ -46,7 +46,7 @@ public class BandPassOnsetDetect extends AbstractRenderCommand<IAudioRenderTarge
 			
 			double delta = (eNow - ePrev)/N_CALC_FRAMES; // don't use abs -> detect only rise in energy, not a fall
 			if (delta >= THRESHOLD_DELTA && mean >= THRESHOLD_ENERGY) {
-				pipeline.noteOn(bandPassFilterBank.lowestNote + i, 0);
+				pipeline.noteOn(bandPassFilterBank.lowestNote + i, 64);
 				for(int x = 0; x < N_FRAMES; ++x) meanEnergyHistory[i][x] = 1; // Math.max(meanEnergyHistory[i][x], meanEnergyHistory[i][idx]); // set all values to the current value, so no futher noteons are detected in the following nFrames-1 frames
 				System.out.println("pitch=" + (bandPassFilterBank.lowestNote + i) + ", mean=" + mean + ", eNow:" + eNow + ", delta=" + delta +", time:" + Math.round(System.currentTimeMillis() - BandPassFilterBankPipeline.START_TIME));
 			} else {
