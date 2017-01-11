@@ -19,7 +19,7 @@ public class BandPassOnsetDetectMarkov extends AbstractRenderCommand<IAudioRende
 		
 		int nFilters = bandPassFilterBank.highestNote - bandPassFilterBank.lowestNote + 1;
 		meanHistory = new double[nFilters][28];
-		markovModels = new MarkovModel[4];
+		markovModels = new MarkovModel[40];
 		for (File f : new File("models").listFiles()) {
 			String[] nameSplit = f.getName().split("\\.");
 			int index = Integer.parseInt(nameSplit[nameSplit.length - 2]);
@@ -58,6 +58,7 @@ public class BandPassOnsetDetectMarkov extends AbstractRenderCommand<IAudioRende
 		for (int i = 0; i < markovModels.length; ++i) {
 			markovModels[i].calcProbs();
 		}
+		System.out.println("Markov models read");
 	}
 	
 	@Override

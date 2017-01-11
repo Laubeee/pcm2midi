@@ -34,7 +34,7 @@ public class MachineLearningDataWriterPipeline extends AbstractPCM2MIDI {
 		
 		PerfectMIDIDetection ppd = new PerfectMIDIDetection(getRefMidi());
 		program.addLast(ppd);
-		BandPassFilterBank bandPassFilterBank = new BandPassFilterBank(lowestNote, highestNote);
+		BandPassFilterBank bandPassFilterBank = new BandPassFilterBank(lowestNote, highestNote, 3);
 		program.addLast(bandPassFilterBank);
 		mldw = new MachineLearningDataWriter(ppd, bandPassFilterBank, 10, 8, 11, filename);
 		program.addLast(mldw);

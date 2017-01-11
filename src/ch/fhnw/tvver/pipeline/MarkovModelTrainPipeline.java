@@ -31,7 +31,7 @@ public class MarkovModelTrainPipeline extends AbstractPCM2MIDI {
 		program.addLast(ppd);
 		//program.addLast(new DCRemove());
 		//program.addLast(new AutoGainCopy());
-		BandPassFilterBank bandPassFilterBank = new BandPassFilterBank(24, 101);
+		BandPassFilterBank bandPassFilterBank = new BandPassFilterBank(24, 101, 12);
 		program.addLast(bandPassFilterBank);
 		
 		//program.addLast(new BandPassOnsetDetectADSR(bandPassFilterBank, this));

@@ -18,13 +18,13 @@ import ch.fhnw.tvver.rendercommand.PerfectMIDIDetection;
 
 public class MarkovModelPipeline extends AbstractPCM2MIDI {
 	public MarkovModelPipeline(File track) throws UnsupportedAudioFileException, IOException, MidiUnavailableException, InvalidMidiDataException, RenderCommandException {
-		super(track, EnumSet.of(Flags.MAX_SPEED));
+		super(track, EnumSet.of(Flags.REPORT, Flags.MAX_SPEED));
 	}
 	
 	@Override
 	protected void initializePipeline(RenderProgram<IAudioRenderTarget> program) {
 		program.addLast(new PerfectMIDIDetection(getRefMidi()));
-		BandPassFilterBank bandPassFilterBank = new BandPassFilterBank(24, 101);
+		BandPassFilterBank bandPassFilterBank = new BandPassFilterBank(24, 101, 12);
 		program.addLast(bandPassFilterBank);
 		program.addLast(new BandPassOnsetDetectMarkov(bandPassFilterBank));
 	}
