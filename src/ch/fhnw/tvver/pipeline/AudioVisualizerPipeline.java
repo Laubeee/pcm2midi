@@ -30,15 +30,11 @@ public class AudioVisualizerPipeline extends AbstractPCM2MIDI {
 	protected void initializePipeline(RenderProgram<IAudioRenderTarget> program) {
 		program.addLast(new DCRemove());
 		program.addLast(new AutoGain());
-		
 		FFT fft = new FFT(20, Window.HANN);
 		program.addLast(fft);
-		
 		program.addLast(new BandsButterworth(40, 8000, 40, 60, 1));
-		
 		PitchDetect pitchDetect = new PitchDetect(fft, 2);
 		program.addLast(pitchDetect);
-		
 		program.addLast(new PitchDetectToMidi(this, pitchDetect));
 	}
 	
