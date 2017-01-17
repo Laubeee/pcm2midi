@@ -29,7 +29,7 @@ public class PitchDetectToMidi extends AbstractRenderCommand<IAudioRenderTarget>
 			if (MidiUtil.frequencyToMidi(pitch[0]) != lastNote && amplitude[0] > 10000000) {
 				lastNote = MidiUtil.frequencyToMidi(pitch[0]);
 				System.out.println(lastNote + " " + amplitude[0]);
-				pipeline.noteOn(lastNote, 0);
+				pipeline.noteOn(lastNote, 64);
 			}
 		}
 	}

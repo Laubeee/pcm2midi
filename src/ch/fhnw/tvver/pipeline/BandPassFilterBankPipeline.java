@@ -34,7 +34,7 @@ public class BandPassFilterBankPipeline extends AbstractPCM2MIDI {
 		program.addLast(new DCRemove());
 		//program.addLast(new AutoGainCopy());
 		program.addLast(new Compression());
-		BandPassFilterBank bandPassFilterBank = new BandPassFilterBank(24, 101);
+		BandPassFilterBank bandPassFilterBank = new BandPassFilterBank(24, 101, 3);
 		program.addLast(bandPassFilterBank);
 		program.addLast(new BandPassOnsetDetect(bandPassFilterBank, this));
 	}

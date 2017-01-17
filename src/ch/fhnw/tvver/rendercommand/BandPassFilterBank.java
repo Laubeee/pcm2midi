@@ -9,6 +9,8 @@ import ch.fhnw.tvver.util.MidiUtil;
 public class BandPassFilterBank extends AbstractRenderCommand<IAudioRenderTarget> {
 	public final int lowestNote;
 	public final int highestNote;
+	private final int filterNarrowness;
+	
 	public float[][] filteredSamples;
 	
 	private ButterworthFilter[] filterBank;
@@ -16,12 +18,15 @@ public class BandPassFilterBank extends AbstractRenderCommand<IAudioRenderTarget
 	public BandPassFilterBank() {
 		lowestNote = 0;
 		highestNote = 127;
+		filterNarrowness = 2;
 	}
-	public BandPassFilterBank(int lowestNote, int highestNote) {
+	public BandPassFilterBank(int lowestNote, int highestNote, int filterNarrowness) {
 		assert lowestNote > -1;
 		assert highestNote < 128;
+		assert filterNarrowness >= 2;
 		this.lowestNote = lowestNote;
 		this.highestNote = highestNote;
+		this.filterNarrowness = filterNarrowness;
 	}
 	
 	private void initializeFilterBank(float sampleRate) {
@@ -33,11 +38,12 @@ public class BandPassFilterBank extends AbstractRenderCommand<IAudioRenderTarget
 			// 0 _2_ 4 --> 1-3
 //			float low = (f + fLast)/2;
 //			float high = (fNext + f)/2;
+			// filterNarrowness=3:
 			// 0 _2_ 4 --> 1.333-2.666
-			float low = f - (f - fLast)/3;
-			float high = f + (fNext - f)/3;
+			float low = f - (f - fLast)/filterNarrowness;
+			float high = f + (fNext - f)/filterNarrowness;
 			filterBank[d - lowestNote] = ButterworthFilter.getBandpassFilter(sampleRate, low, high);
-			System.out.println(d + ": " + low + "-" + high);
+			//System.out.println(d + ": " + low + "-" + high);
 		}
 	}
 	
