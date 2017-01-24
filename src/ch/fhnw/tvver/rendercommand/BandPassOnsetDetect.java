@@ -4,7 +4,7 @@ import ch.fhnw.ether.audio.IAudioRenderTarget;
 import ch.fhnw.ether.media.AbstractRenderCommand;
 import ch.fhnw.ether.media.RenderCommandException;
 import ch.fhnw.tvver.AbstractPCM2MIDI;
-import ch.fhnw.tvver.pipeline.BandPassFilterBankPipeline;
+import ch.fhnw.tvver.pipeline.OverallOnsetFourierPitchPipeline;
 
 public class BandPassOnsetDetect extends AbstractRenderCommand<IAudioRenderTarget> {
 	private static final double THRESHOLD_DELTA = 0.015;
@@ -44,7 +44,7 @@ public class BandPassOnsetDetect extends AbstractRenderCommand<IAudioRenderTarge
 			if (delta >= THRESHOLD_DELTA && mean >= THRESHOLD_ENERGY) {
 				pipeline.noteOn(bandPassFilterBank.lowestNote + i, 64);
 				for(int x = 0; x < N_FRAMES; ++x) meanEnergyHistory[i][x] = 1; // Math.max(meanEnergyHistory[i][x], meanEnergyHistory[i][idx]); // set all values to the current value, so no futher noteons are detected in the following nFrames-1 frames
-				System.out.println("pitch=" + (bandPassFilterBank.lowestNote + i) + ", mean=" + mean + ", eNow:" + eNow + ", delta=" + delta +", time:" + Math.round(System.currentTimeMillis() - BandPassFilterBankPipeline.START_TIME));
+				System.out.println("pitch=" + (bandPassFilterBank.lowestNote + i) + ", mean=" + mean + ", eNow:" + eNow + ", delta=" + delta +", frame:" + target.getTotalElapsedFrames());
 			} else {
 				//System.out.println("p=" + (bandPassFilterBank.lowestNote + i) + ", mean=" + mean + ", delta=" + delta +", time:" + Math.round(System.currentTimeMillis() - BandPassFilterBankPipeline.START_TIME));
 			}

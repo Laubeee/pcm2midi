@@ -51,7 +51,7 @@ import ch.fhnw.util.math.Vec2;
 public class PitchDetect extends AbstractRenderCommand<IAudioRenderTarget> {
 	private static final float THRESHOLD = 0.2f;
 
-	private final FFT spectrum;
+	public final FFT fft;
 	private final int nHarmonics;
 	private final AtomicReference<float[]> amplitude = new AtomicReference<>(ClassUtilities.EMPTY_floatA);
 	private final AtomicReference<float[]> pitch = new AtomicReference<>(ClassUtilities.EMPTY_floatA);
@@ -66,13 +66,13 @@ public class PitchDetect extends AbstractRenderCommand<IAudioRenderTarget> {
 	}
 
 	public PitchDetect(FFT fft, int nHarmonics) {
-		this.spectrum = fft;
+		this.fft = fft;
 		this.nHarmonics = nHarmonics;
 	}
 
 	@Override
 	protected void run(final IAudioRenderTarget target) throws RenderCommandException {
-		final float[] spec = spectrum.power().clone();
+		final float[] spec = fft.power().clone();
 
 		AudioUtilities.multiplyHarmonics(spec, nHarmonics);
 
@@ -80,7 +80,7 @@ public class PitchDetect extends AbstractRenderCommand<IAudioRenderTarget> {
 		this.peaks.clear();
 
 		for (int i = peaks.nextSetBit(0); i >= 0; i = peaks.nextSetBit(i + 1))
-			this.peaks.add(new Vec2(spec[i], spectrum.idx2f(i)));
+			this.peaks.add(new Vec2(spec[i], fft.idx2f(i)));
 
 		Collections.sort(this.peaks, (Vec2 v0, Vec2 v1) -> v0.x < v1.x ? 1 : v0.x > v1.x ? -1 : 0);
 
@@ -93,5 +93,4 @@ public class PitchDetect extends AbstractRenderCommand<IAudioRenderTarget> {
 		this.amplitude.set(amplitude);
 		this.pitch.set(pitch);
 	}
-
 }
