@@ -56,7 +56,7 @@ public class PerfectMIDIDetection extends AbstractRenderCommand<IAudioRenderTarg
 						for(MidiEvent e : evts) {
 							byte[] msg = e.getMessage().getMessage();
 							lastNote = msg[1];
-							System.err.println("noteOn("+msg[1]+","+msg[2]+")"+", time:" + Math.round(System.currentTimeMillis() - BandPassFilterBankPipeline.START_TIME));
+							System.err.println("noteOn("+msg[1]+","+msg[2]+")"+", time:" + Math.round(System.currentTimeMillis() - BandPassFilterBankPipeline.START_TIME) + ", frame:" + target.getTotalElapsedFrames());
 						}
 					}
 				}
