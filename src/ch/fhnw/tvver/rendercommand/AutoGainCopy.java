@@ -40,10 +40,10 @@
 import ch.fhnw.util.color.RGB;
 
  public class AutoGainCopy extends AbstractRenderCommand<IAudioRenderTarget> implements IPlotable {
-	 public static final Parameter TARGET  = new Parameter("gain",    "Gain [dB]", -120, 0,  -10);
-	 public static final Parameter ATTACK  = new Parameter("attack",  "Attack",       0, 1,   0.3f);
-	 public static final Parameter SUSTAIN = new Parameter("sustain", "Sustain",      0, 10,  5);
-	 public static final Parameter DECAY   = new Parameter("decay",   "Decay",        0, 1,   0.1f);
+	 public static final Parameter TARGET  = new Parameter("gain",    "Gain [dB]", -120, 0,  -12);
+	 public static final Parameter ATTACK  = new Parameter("attack",  "Attack",       0, 1,   1.0f);
+	 public static final Parameter SUSTAIN = new Parameter("sustain", "Sustain",      0, 10,  0);
+	 public static final Parameter DECAY   = new Parameter("decay",   "Decay",        0, 1,   0.0f);
 
 	 private final static double MAX2AVG      = 0.5;
 	 private static final double SMOOTH_DELAY = 0.1;

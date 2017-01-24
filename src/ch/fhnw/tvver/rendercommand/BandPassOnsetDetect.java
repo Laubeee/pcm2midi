@@ -15,21 +15,17 @@ public class BandPassOnsetDetect extends AbstractRenderCommand<IAudioRenderTarge
 	private final BandPassFilterBank bandPassFilterBank;
 	private final AbstractPCM2MIDI pipeline;
 	private final double meanEnergyHistory[][]; // saves mean energy of previous frames
-	//private final int meanEnergyHistoryIdx[]; // saves current idx
 	private int idx = 0;
-	//private int f = 0;
 	
 	public BandPassOnsetDetect(BandPassFilterBank bandPassFilterBank, AbstractPCM2MIDI pipeline) {
 		this.bandPassFilterBank = bandPassFilterBank;
 		this.pipeline = pipeline;
 		int nFilters = bandPassFilterBank.highestNote - bandPassFilterBank.lowestNote + 1;
 		meanEnergyHistory = new double[nFilters][N_FRAMES];
-		//meanEnergyHistoryIdx = new int[nFilters];
 	}
 	
 	@Override
 	protected void run(IAudioRenderTarget target) throws RenderCommandException {
-		//++f; if(f > 33) { System.out.println(" ===== 33 FRAMES ====="); f = 0; }
 		for (int i = 0; i < bandPassFilterBank.filteredSamples.length; ++i) {
 			double sum = 0;
 			for (int j = 0; j < bandPassFilterBank.filteredSamples[i].length; ++j) {
