@@ -25,7 +25,7 @@ public class BandPassFilterBankPipeline extends AbstractPCM2MIDI {
 	public static long START_TIME;
 	
 	public BandPassFilterBankPipeline(File track) throws UnsupportedAudioFileException, IOException, MidiUnavailableException, InvalidMidiDataException, RenderCommandException {
-		super(track, EnumSet.of(Flags.REPORT, Flags.MAX_SPEED));
+		super(track, EnumSet.of(Flags.REPORT, Flags.MAX_SPEED)); //, Flags.MAX_SPEED
 	}
 	
 	@Override

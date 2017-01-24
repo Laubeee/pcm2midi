@@ -31,8 +31,9 @@ public class PerfectMIDIDetection extends AbstractRenderCommand<IAudioRenderTarg
 		for(MidiEvent e : midiRefRaw) {
 			MidiMessage msg = e.getMessage();
 			if(msg instanceof ShortMessage && 
-					(msg.getMessage()[0] & 0xFF) != ShortMessage.NOTE_ON || 
-					(msg.getMessage()[2] & 0xFF) == 0) continue;
+					((msg.getMessage()[0] & 0xFF) != ShortMessage.NOTE_ON &&
+					 (msg.getMessage()[0] & 0xFF) != ShortMessage.NOTE_OFF) || 
+					 (msg.getMessage()[2] & 0xFF) == 0) continue;
 			int msTime = (int) (e.getTick() / 1000L);
 			while(midiRef.size() <= msTime)
 				midiRef.add(null);
@@ -55,8 +56,12 @@ public class PerfectMIDIDetection extends AbstractRenderCommand<IAudioRenderTarg
 					if(evts != null) {
 						for(MidiEvent e : evts) {
 							byte[] msg = e.getMessage().getMessage();
-							lastNote = msg[1];
-							System.err.println("noteOn("+msg[1]+","+msg[2]+")"+", time:" + Math.round(System.currentTimeMillis() - BandPassFilterBankPipeline.START_TIME) + ", frame:" + target.getTotalElapsedFrames());
+							if((msg[0] & 0xFF) == ShortMessage.NOTE_ON) {
+								lastNote = msg[1];
+								System.err.println("noteOn("+msg[1]+","+msg[2]+")"+", time:" + Math.round(System.currentTimeMillis() - BandPassFilterBankPipeline.START_TIME) + ", frame:" + target.getTotalElapsedFrames());
+							} else if((msg[0] & 0xFF) == ShortMessage.NOTE_OFF) {
+								System.err.println("noteOff("+msg[1]+","+msg[2]+")"+", time:" + Math.round(System.currentTimeMillis() - BandPassFilterBankPipeline.START_TIME) + ", frame:" + target.getTotalElapsedFrames());
+							}
 						}
 					}
 				}

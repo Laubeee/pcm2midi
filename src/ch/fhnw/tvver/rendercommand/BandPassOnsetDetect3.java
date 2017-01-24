@@ -19,7 +19,7 @@ public class BandPassOnsetDetect3 extends AbstractRenderCommand<IAudioRenderTarg
 	private static final double DELTA_THRESHOLD_FB = 0.0003; // threshold per filterbank
 	private static final int N_FRAMES = 24; // number of total frames taken into account since attack of piano is almost instantly, there should be max 4 frames relevant?
 	private static final int N_CALC_FRAMES = 8; // number of frames on each end that are used for calculation
-	private static final int SKIP_FRAMES = 15; // number of frames to skip after onset to determine pitch
+	private static final int SKIP_FRAMES = 10; // number of frames to skip after onset to determine pitch
 	
 	private final BandPassFilterBank bandPassFilterBank;
 	private final AbstractPCM2MIDI pipeline;
