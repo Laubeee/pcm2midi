@@ -100,9 +100,9 @@ public class BandPassOnsetDetect3 extends AbstractRenderCommand<IAudioRenderTarg
 			}
 			
 			if(key1 >= 0) {
-				System.out.println(String.format("1. key: %1$d (mean: %2$f, delta: %3$f) frame:%4$d", bandPassFilterBank.lowestNote + key1,max1,target.getTotalElapsedFrames()));
+				System.out.println(String.format("1. key: %1$d (mean: %2$f) frame:%3$d", bandPassFilterBank.lowestNote + key1,max1,target.getTotalElapsedFrames()));
 				if(key2 >= 0) {
-					System.out.println(String.format("2. key: %1$d (mean: %2$f, delta: %3$f) frame:%4$d", bandPassFilterBank.lowestNote + key2,max2,target.getTotalElapsedFrames()));
+					System.out.println(String.format("2. key: %1$d (mean: %2$f) frame:%3$d", bandPassFilterBank.lowestNote + key2,max2,target.getTotalElapsedFrames()));
 				} else {
 					System.out.println("2. -");
 				}
